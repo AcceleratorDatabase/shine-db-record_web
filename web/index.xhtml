@@ -1,0 +1,258 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+
+        <p:layout style="min-width:800px;min-height: 1000px;margin-top: 20px;margin-left: 20px;margin-right: 20px"  >
+
+            <p:layoutUnit position="west" resizable="true" size="300" minSize="100" >
+                <h:form>
+                    <p:tree value="#{navbarView.root}" var="node" animate="true"   dynamic="true" cache="false" selectionMode="single" selection="#{navbarView.selectedNode}">
+                        <p:ajax event="select"  listener="#{navbarView.onNodeSelect}" update=":server_panel,:ioc_panel,:record_panel" />
+                        <p:treeNode>
+                            <h:outputText value="#{node}" style="color: steelblue; line-height: 150%; "/>
+                        </p:treeNode>
+                    </p:tree>
+                </h:form>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="center">
+
+                <h:panelGrid id="panelgrid" >
+
+                    <p:panel id="server_panel" binding="#{navbarView.serverPanel}" visible="false">
+
+                        <p:dataTable  id="server_table" var="ioc" value="#{navbarView.iocList}"  paginator="true"  rows="20" paginatorPosition="bottom"  >                                     
+                            <f:facet name="header">
+                                <h:outputText value="Server Running Condition" style="font-size: 20px;color:royalblue"/>                                    
+                            </f:facet>
+
+                            <p:columnGroup type="header">
+                                <p:row >
+                                    <p:column colspan="1" headerText="IP Address" style=" background:windowframe ; background-color: lightsteelblue; "/>
+                                    <p:column colspan="1" headerText="Startup Time"  style=" background:windowframe; background-color: lightsteelblue" />
+                                    <p:column colspan="1" headerText="Scan Time"  style=" background:windowframe; background-color: lightsteelblue"/>
+                                    <p:column colspan="1" headerText="OS Version"  style=" background:windowframe; background-color:   lightsteelblue"/>
+                                    <p:column colspan="1" headerText="CPU Model"  style=" background:windowframe; background-color: lightsteelblue"/>
+                                    <!-- <p:column colspan="1" headerText="Total Number of IOC on the Server" style=" background:windowframe; background-color: transparent" />-->
+                                </p:row>
+                                <p:row >
+                                    <p:column colspan="1"  headerText="#{navbarView.selectedServer.ip}"  style=" background:windowframe; background-color: transparent"/>
+                                    <p:column colspan="1"  headerText="#{navbarView.selectedServer.startupTime}"  style=" background:windowframe; background-color: transparent"/>                                
+                                    <p:column colspan="1"  headerText="#{navbarView.selectedServer.scanTime}"  style=" background:windowframe; background-color: transparent"/>
+                                    <p:column colspan="1"  headerText="#{navbarView.selectedServer.osVers}"  style=" background:windowframe; background-color: transparent"/>
+                                    <p:column colspan="1"  headerText="#{navbarView.selectedServer.cpuModel}"  style=" background:windowframe; background-color: transparent"/>
+                                <!--    <p:column colspan="1" headerText="#{navbarView.iocList.size()}" style=" background:windowframe; background-color: wheat" />-->
+                                </p:row>
+                                <p:row >
+                                    <p:column colspan="1" headerText="CPU Cores"  style=" background:windowframe; background-color: lightsteelblue"/>
+                                    <p:column colspan="1" headerText="Memory Total" style=" background:windowframe; background-color: lightsteelblue "/>
+                                    <p:column colspan="1" headerText="Memory Free"  style=" background:windowframe; background-color: lightsteelblue"/>
+                                    <p:column colspan="1" headerText="Buffers"  style=" background:windowframe; background-color: lightsteelblue"/>
+                                    <p:column colspan="1" headerText="Cached"  style=" background:windowframe; background-color: lightsteelblue"/>
+                                </p:row>
+                                <p:row>
+                                    <p:column colspan="1"  headerText="#{navbarView.selectedServer.cpuNum}"  style=" background:windowframe; background-color: transparent"/>
+                                    <p:column colspan="1"  headerText="#{navbarView.selectedServer.memTotal}"  style=" background:windowframe; background-color: transparent"/>
+                                    <p:column colspan="1"  headerText="#{navbarView.selectedServer.memFree}"  style=" background:windowframe; background-color: transparent"/>
+                                    <p:column colspan="1"  headerText="#{navbarView.selectedServer.buffers}"  style=" background:windowframe; background-color: transparent"/>
+                                    <p:column colspan="1"  headerText="#{navbarView.selectedServer.cached}"  style=" background:windowframe; background-color: transparent"/>
+                                </p:row>
+                                <p:row >
+                                    <p:column colspan="1" headerText="CPU Load"  style=" background:windowframe; background-color: lightsteelblue"/>
+                                    <p:column colspan="1" headerText="CPU Average"  style=" background:windowframe; background-color: lightsteelblue"/>
+                                    <p:column colspan="1" headerText="File Descriptors Free"  style=" background:windowframe; background-color: lightsteelblue"/>
+                                    <p:column colspan="1" headerText="File Descriptors Max"  style=" background:windowframe; background-color: lightsteelblue"/>
+                                </p:row>
+
+                                <p:row >
+                                    <p:column colspan="1"  headerText="#{navbarView.selectedServer.cpuLoad}"  style=" background:windowframe; background-color: transparent"/>
+                                    <p:column colspan="1"  headerText="#{navbarView.selectedServer.loadAverage}"  style=" background:windowframe; background-color: transparent"/>
+                                    <p:column colspan="1"  headerText="#{navbarView.selectedServer.fileFree}"  style=" background:windowframe; background-color: transparent"/>
+                                    <p:column colspan="1"  headerText="#{navbarView.selectedServer.fileMax}"  style=" background:windowframe; background-color: transparent"/>
+                                </p:row>
+                                <p:row>
+                                    <p:column colspan="5" headerText="IOC on the Server" style="font-size: 20px;color:royalblue"/>                                    
+                                </p:row>
+                                <p:row>
+                                    <p:column headerText="IOC Name" style=" background:windowframe; background-color: lightsteelblue" />
+                                    <p:column headerText="Install path" style=" background:windowframe; background-color: lightsteelblue" />
+                                    <p:column headerText="Boot time" style=" background:windowframe; background-color: lightsteelblue"/>
+                                    <p:column headerText="Active" style=" background:windowframe; background-color: lightsteelblue"/>
+                                    <p:column headerText="Total Number of Record" style=" background:windowframe; background-color: lightsteelblue"/>
+                                </p:row>
+                            </p:columnGroup>
+                            <p:column >
+                                <h:outputText value="#{ioc.name}"  style=" background:windowframe; background-color: transparent; align-items: center" />        
+                            </p:column>
+                            <p:column >
+                                <h:outputText value="#{ioc.installPath}"  style=" background:windowframe; background-color: transparent; "/>        
+                            </p:column>
+                            <p:column >
+                                <h:outputText value="#{ioc.bootTime}" style=" background:windowframe; background-color: transparent" >   
+                                    <f:convertDateTime timeZone="GMT+8" pattern="yyyy/MM/dd hh:mm:ss" locale="zh"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column >
+                                <h:outputText value="#{ioc.active}" style=" background:windowframe; background-color: transparent" />        
+                            </p:column>
+                            <p:column >
+                                <h:outputText value="#{ioc.recordList.size()}"  style=" background:windowframe; background-color: transparent"/>        
+                            </p:column> 
+                        </p:dataTable>
+
+                        <p:dataTable  id="server_env_table" var="env" value="#{navbarView.selectedServer.serverEnvList}"  paginator="true"  rows="20" paginatorPosition="bottom" >                                     
+                            <f:facet name="header">
+                                <h:outputText value="Server Environment Variables" style="font-size: 20px;color:royalblue"/>                                    
+                            </f:facet>
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Environment Name"  />
+                                </f:facet>
+                                <h:outputText value="#{env.envName}"  />        
+                            </p:column>
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Environment Value" />
+                                </f:facet>
+                                <h:outputText value="#{env.envValue}"/>        
+                            </p:column>                            
+                        </p:dataTable>
+
+                        <p:dataTable  id="server_epics_env_table" var="epics_env" value="#{navbarView.selectedServer.epicsEnvList}"  paginator="true"  rows="20" paginatorPosition="bottom"  >                                     
+
+                            <p:column >
+                                <!--  <f:facet name="header">
+                                      <h:outputText value="Environment Name"/>
+                                  </f:facet>-->
+                                <h:outputText value="#{epics_env.epicsEnvName}"  />        
+                            </p:column>
+                            <p:column >
+                                <!--   <f:facet name="header">
+                                       <h:outputText value="Environment Value"/>
+                                   </f:facet>-->
+                                <h:outputText value="#{epics_env.epicsEnvValue}"  />        
+                            </p:column>
+                        </p:dataTable>
+
+                    </p:panel>
+
+                    <p:panel id="ioc_panel" binding="#{navbarView.iocPanel}" visible="false">
+                        <h:form>
+                            <p:dataTable  id="ioc_table" var="record" value="#{navbarView.recordList}" paginator="true"  rows="20" 
+                                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+                                          rowsPerPageTemplate="10,20,30"  paginatorPosition="bottom">
+                                <f:facet name="header">
+                                    <h:outputText value=" IOC Running Information" style="font-size: 20px;color:royalblue"/>                                   
+                                </f:facet>
+
+                                <p:columnGroup type="header">
+                                    <p:row>
+                                        <p:column colspan="1" headerText="IOC Name" style="background:windowframe ; background-color: lightsteelblue;"/>
+                                        <p:column colspan="1" headerText="IP Address" style=" background:windowframe ; background-color: lightsteelblue;" />
+                                        <p:column colspan="1" headerText="Install Path" style="background:windowframe ; background-color: lightsteelblue;" />
+                                        <p:column colspan="1" headerText="Boot Time" style=" background:windowframe ; background-color: lightsteelblue;" />
+                                        <p:column colspan="1" headerText="Scan Time" style=" background:windowframe ; background-color: lightsteelblue;" />
+                                    </p:row>
+                                    <p:row style="font-size: 16px;">
+                                        <p:column colspan="1"  headerText="#{navbarView.selectedIOC.name}"  style=" background:windowframe; background-color: transparent"/>
+                                        <p:column colspan="1" headerText="#{navbarView.selectedIOC.servierId.ip}" style="background:windowframe; background-color: transparent" />
+                                        <p:column colspan="1" headerText="#{navbarView.selectedIOC.installPath}" style="background:windowframe; background-color: transparent" />
+                                        <p:column colspan="1" headerText="#{navbarView.selectedIOC.bootTime}" style="background:windowframe; background-color: transparent" />
+                                        <p:column colspan="1" headerText="#{navbarView.selectedIOC.scanTime}" style="background:windowframe; background-color: transparent" />
+                                    </p:row>
+                                    <p:row>
+                                        <p:column colspan="1" headerText="EPICS CA Server Port" style="background:windowframe ; background-color: lightsteelblue;"/>
+                                        <p:column colspan="1" headerText="EPICS CA Repeater Port" style=" background:windowframe ; background-color: lightsteelblue;" />
+                                        <p:column colspan="1" headerText="Active" style=" background:windowframe ; background-color: lightsteelblue;" />
+                                        <p:column colspan="1" headerText="Connected Records" style="  background:windowframe ; background-color: lightsteelblue;"/>
+                                        <p:column colspan="1" headerText="Unconnected Records" style=" background:windowframe ; background-color: lightsteelblue;" />                                      
+                                    </p:row>
+                                    <p:row style="font-size: 16px;">         
+                                        <p:column colspan="1"  headerText="#{navbarView.selectedIOC.epicsCaServerPort}"  style=" background:windowframe; background-color: transparent"/>
+                                        <p:column colspan="1" headerText="#{navbarView.selectedIOC.epicsCaRepeaterPort}" style="background:windowframe; background-color: transparent" />
+                                        <p:column colspan="1" headerText="#{navbarView.selectedIOC.active}" style="background:windowframe; background-color: transparent" />
+                                        <p:column colspan="1" headerText="#{navbarView.connectedRecordList.size()}" style=" background:windowframe; background-color: transparent" />
+                                        <p:column colspan="1" headerText="#{navbarView.recordList.size()-navbarView.connectedRecordList.size()}" style=" background:windowframe; background-color: transparent" />
+                                    </p:row>
+                                    <p:row>
+                                        <p:column colspan="5" headerText="Records on the IOC" style="font-size: 20px;color:royalblue"/>                                    
+                                    </p:row>
+                                    <p:row>
+                                        <p:column colspan="2" headerText="Record Name" />
+                                        <p:column colspan="2" headerText="Record Type" />
+                                        <p:column colspan="1" headerText="Connected" />                                      
+                                    </p:row>
+                                </p:columnGroup>
+
+                                <p:column colspan="2">                                   
+                                    <h:outputText value="#{record.name}"  />        
+                                </p:column>
+
+                                <p:column colspan="2">                                    
+                                    <h:outputText value="#{record.recordTypeId.type}"  />        
+                                </p:column>
+
+                                <p:column colspan="1" sortBy="#{record.active}">                                   
+                                    <h:outputText value="#{record.active}" />   
+                                </p:column>
+
+                            </p:dataTable>
+                        </h:form>
+                    </p:panel>
+
+                    <p:panel id="record_panel" binding="#{navbarView.recordPanel}" visible="false" >
+                        <h:form>
+                            <p:dataTable  id="record_table" var="fieldValue" value="#{navbarView.fieldValueList}" paginator="true"  rows="20" 
+                                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+                                          rowsPerPageTemplate="10,20,30" >
+                                <f:facet name="header">
+                                    <h:outputText value=" List of Fields of the Record" style="font-size: 20px;color:royalblue"/>
+                                </f:facet>                               
+                                <p:column >
+                                    <f:facet name="header">
+                                        <h:outputText value="Field Name"/>
+                                    </f:facet>
+                                    <h:outputText value="#{fieldValue.fieldTypeId.name}"  />        
+                                </p:column>
+
+                                <p:column >
+                                    <f:facet name="header">
+                                        <h:outputText value="Field Description"/>
+                                    </f:facet>
+                                    <h:outputText value="#{fieldValue.fieldTypeId.desp}"  />        
+                                </p:column>  
+
+                                <p:column  sortBy="#{fieldValue.fieldTypeId.fieldGroupId.name}">
+                                    <f:facet name="header">
+                                        <h:outputText value="Field Group"/>
+                                    </f:facet>
+                                    <h:outputText value="#{fieldValue.fieldTypeId.fieldGroupId.name}"  />        
+                                </p:column>  
+                                
+                                 <p:column >
+                                    <f:facet name="header">
+                                        <h:outputText value="Field Value"/>
+                                    </f:facet>
+                                     <h:outputText value="#{fieldValue.value}"  />        
+                                </p:column>  
+
+                            </p:dataTable>
+                        </h:form>
+                    </p:panel>
+                </h:panelGrid>
+
+            </p:layoutUnit>
+
+        </p:layout>
+
+    </h:body>
+</html>
+
